@@ -2,7 +2,7 @@ import re
 import django
 from django.utils.text import wrap
 from django.utils.translation import ugettext, ugettext_lazy as _
-from django.contrib.sites.models import Site
+# from django.contrib.sites.models import Site
 from django.template.loader import render_to_string
 from django.conf import settings
 
@@ -68,23 +68,26 @@ def new_message_email(sender, instance, signal,
         ``subject_prefix``: prefix for the email subject.
         ``default_protocol``: default protocol in site URL passed to template
     """
-    if default_protocol is None:
-        default_protocol = getattr(settings, 'DEFAULT_HTTP_PROTOCOL', 'http')
+    # TODO there should be a better and cleaner way to do. anyway I will implement new Email stratgey
+    # which will cover this too. We dont need this Site thing.
+    pass
+    # if default_protocol is None:
+    #     default_protocol = getattr(settings, 'DEFAULT_HTTP_PROTOCOL', 'http')
 
-    if 'created' in kwargs and kwargs['created']:
-        try:
-            current_domain = Site.objects.get_current().domain
-            subject = subject_prefix % {'subject': instance.subject}
-            message = render_to_string(template_name, {
-                'site_url': '%s://%s' % (default_protocol, current_domain),
-                'message': instance,
-            })
-            if instance.recipient.email != "":
-                send_mail(subject, message, settings.DEFAULT_FROM_EMAIL,
-                    [instance.recipient.email,])
-        except Exception as e:
-            #print e
-            pass #fail silently
+    # if 'created' in kwargs and kwargs['created']:
+    #     try:
+    #         current_domain = Site.objects.get_current().domain
+    #         subject = subject_prefix % {'subject': instance.subject}
+    #         message = render_to_string(template_name, {
+    #             'site_url': '%s://%s' % (default_protocol, current_domain),
+    #             'message': instance,
+    #         })
+    #         if instance.recipient.email != "":
+    #             send_mail(subject, message, settings.DEFAULT_FROM_EMAIL,
+    #                 [instance.recipient.email,])
+    #     except Exception as e:
+    #         #print e
+    #         pass #fail silently
 
 
 def get_user_model():
