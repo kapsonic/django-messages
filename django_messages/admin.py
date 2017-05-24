@@ -33,7 +33,7 @@ class MessageAdminForm(forms.ModelForm):
     class Meta:
         model = Message
         fields = ('sender', 'recipient', 'group', 'parent_msg', 'subject',
-                'body', 'sent_at', 'read_at', 'replied_at', 'sender_deleted_at',
+                'body', 'read_at', 'replied_at', 'sender_deleted_at',
                 'recipient_deleted_at')
 
 class MessageAdmin(admin.ModelAdmin):
